@@ -8,11 +8,6 @@ import {
 } from './event'
 import {utf8Decoder, utf8Encoder} from './utils'
 
-enum HttpMethod {
-  Get = 'get',
-  Post = 'post'
-}
-
 const _authorizationScheme = 'Nostr '
 
 /**
@@ -24,7 +19,7 @@ const _authorizationScheme = 'Nostr '
  */
 export async function getToken(
   loginUrl: string,
-  httpMethod: HttpMethod | string,
+  httpMethod: string,
   sign: <K extends number = number>(
     e: EventTemplate<K>
   ) => Promise<Event<K>> | Event<K>,
@@ -32,8 +27,6 @@ export async function getToken(
 ): Promise<string> {
   if (!loginUrl || !httpMethod)
     throw new Error('Missing loginUrl or httpMethod')
-  if (httpMethod !== HttpMethod.Get && httpMethod !== HttpMethod.Post)
-    throw new Error('Unknown httpMethod')
 
   const event = getBlankEvent(Kind.HttpAuth)
 
